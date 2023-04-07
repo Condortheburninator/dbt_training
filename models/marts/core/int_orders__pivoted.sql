@@ -9,14 +9,11 @@ WITH payments AS (
 pivoted AS (
 
     SELECT
-            order_id
-            ,SUM(
-                CASE
-                    WHEN payment_method = 'bank_transfer'
-                    THEN payment_amount
-                    ELSE 0
-                END
-            )               AS bank_transfer_amount
+             order_id
+            ,SUM(CASE WHEN payment_method = 'bank_transfer' THEN payment_amount ELSE 0 END) AS bank_transfer_amount
+            ,SUM(CASE WHEN payment_method = 'coupon' THEN payment_amount ELSE 0 END)        AS coupon_transfer_amount
+            ,SUM(CASE WHEN payment_method = 'credit_card' THEN payment_amount ELSE 0 END)   AS credit_card_transfer_amount
+            ,SUM(CASE WHEN payment_method = 'gift_card' THEN payment_amount ELSE 0 END)     AS gift_card_amount
 
     FROM
             payments
