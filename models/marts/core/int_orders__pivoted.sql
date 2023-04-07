@@ -10,10 +10,20 @@ pivoted AS (
 
     SELECT
              order_id
-            ,SUM(CASE WHEN payment_method = 'bank_transfer' THEN payment_amount ELSE 0 END) AS bank_transfer_amount
-            ,SUM(CASE WHEN payment_method = 'coupon' THEN payment_amount ELSE 0 END)        AS coupon_transfer_amount
-            ,SUM(CASE WHEN payment_method = 'credit_card' THEN payment_amount ELSE 0 END)   AS credit_card_transfer_amount
-            ,SUM(CASE WHEN payment_method = 'gift_card' THEN payment_amount ELSE 0 END)     AS gift_card_amount
+
+            {% set payment_methods = ['bank_transfer', 'coupon', 'credit_card', 'gift_card'] %}
+
+            {% for payment_method in payment_methods %}
+
+            ,SUM(CASE WHEN payment_method = '{{ payment_method}}' THEN payment_amount ELSE 0 END)   AS {{ payment_method }}_amount
+
+
+            -- {% if not loop.last %}
+            --     ,
+            
+            -- {% endif %}
+
+            {% endfor %}
 
     FROM
             payments
