@@ -6,7 +6,7 @@ SELECT
     paymentmethod   as payment_method,
     status          as payment_status,
 
-    {{ cents_to_dollars() }}    as payment_amount,
+    {{ cents_to_dollars('amount') }}    as payment_amount,
     created         as created_at
 
 FROM 
