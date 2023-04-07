@@ -1,19 +1,12 @@
 
 
-with payments as (
+select
+    id              as payment_id,
+    orderid         as order_id,
+    paymentmethod   as payment_method,
+    status          as payment_status,
 
-SELECT
-         id             AS payment_id
-        ,orderid        AS order_id
-        ,paymentmethod  AS payment_method
-        ,status         AS payment_status
-        ,amount         AS payment_amount
-        ,created
-        ,_batched_at
+    amount / 100    as payment_amount,
+    created         as created_at
 
-FROM
-        RAW.stripe.payment
-
-)
-
-SELECT * FROM payments
+from raw.stripe.payment 
