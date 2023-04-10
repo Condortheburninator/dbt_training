@@ -13,4 +13,4 @@
     )
 }}
 
-{% end snapshot%}
+{% end snapshot %}
