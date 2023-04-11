@@ -2,13 +2,13 @@ with
 
 orders as (
 
-    select * from {{ ref('stg_jaffle_shop__orders') }}
+    select * from {{ ref('stg_orders') }}
 
 ),
 
 payments as (
 
-    select * from {{ ref('stg_stripe__payments') }}
+    select * from {{ ref('stg_payments') }}
     where payment_status != 'fail'
 
 ),
