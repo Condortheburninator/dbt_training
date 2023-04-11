@@ -9,12 +9,12 @@ select
     round(amount / 100.0, 2) as order_value_dollars,
     orders.status as order_status,
     payments.status as payment_status
-from {{ source("jaffle_shop", "orders") }} as orders
+from {{ source("jaffle_shop", "stg_orders") }} as orders
 
 join
     (
         select first_name || ' ' || last_name as name, *
-        from {{ source("jaffle_shop", "customers") }}
+        from {{ source("jaffle_shop", "stg_customers") }}
     ) customers
     on orders.user_id = customers.id
 
@@ -69,17 +69,17 @@ join
                         partition by user_id order by order_date, id
                     ) as user_order_seq,
                     *
-                from {{ source("jaffle_shop", "orders") }}
+                from {{ source("jaffle_shop", "stg_orders") }}
             ) a
 
         join
             (
                 select first_name || ' ' || last_name as name, *
-                from {{ source("jaffle_shop", "customers") }}
+                from {{ source("jaffle_shop", "stg_customers") }}
             ) b
             on a.user_id = b.id
 
-        left outer join {{ source("stripe", "payment") }} c on a.id = c.orderid
+        left outer join {{ source("stripe", "stg_payment") }} c on a.id = c.orderid
 
         where a.status not in ('pending') and c.status != 'fail'
 
@@ -89,6 +89,6 @@ join
     on orders.user_id = customer_order_history.customer_id
 
 left outer join
-    {{ source("stripe", "payment") }} payments on orders.id = payments.orderid
+    {{ source("stripe", "stg_payment") }} payments on orders.id = payments.orderid
 
 where payments.status != 'fail'
