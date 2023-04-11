@@ -1,5 +1,13 @@
 
 
+WITH SOURCE AS (
+
+SELECT * FROM {{ source('stripe', 'payment') }}
+
+),
+
+TRANSFORMED AS (
+
 SELECT
     id              as payment_id,
     orderid         as order_id,
@@ -9,5 +17,9 @@ SELECT
     {{ cents_to_dollars('amount') }}    as payment_amount,
     created         as created_at
 
-FROM 
-        {{ source( 'stripe', 'payment' ) }}
+FROM
+        SOURCE
+
+)
+
+SELECT * FROM SOURCE
