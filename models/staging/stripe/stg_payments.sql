@@ -1,28 +1,25 @@
 
 
-WITH 
+with 
 
-SOURCE AS (
+source as (
 
-        SELECT * FROM {{ source('stripe', 'payment') }}
+    select * from {{ source('stripe', 'payment') }}
 
 ),
 
-TRANSFORMED AS (
+transformed as (
 
-        SELECT
+  select
 
-            id              as payment_id,
-            orderid         as order_id,
-            paymentmethod   as payment_method,
-            status          as payment_status,
-        
-            {{ cents_to_dollars('amount') }}    as payment_amount,
-            created         as created_at
-        
-        FROM
-                SOURCE
+    id as payment_id,
+    orderid as order_id,
+    created as payment_created_at,
+    status as payment_status,
+    round(amount / 100.0, 2) as payment_amount
+
+  from source
 
 )
 
-SELECT * FROM SOURCE
+select * from transformed

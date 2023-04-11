@@ -1,11 +1,11 @@
 with
 
     -- Import CTEs
-    customers as (select * from {{ ref("stg_jaffle_shop__customers") }}),
+    customers as (select * from {{ ref("stg_customers") }}),
 
-    orders as (select * from {{ ref("stg_jaffle_shop__orders") }}),
+    orders as (select * from {{ ref("stg_orders") }}),
 
-    payments as (select * from {{ ref("stg_stripe__payments") }}),
+    payments as (select * from {{ ref("stg_payments") }}),
 
     -- Logical CTEs
     completed_payments as (
