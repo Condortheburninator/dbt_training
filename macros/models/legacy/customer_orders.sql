@@ -152,4 +152,4 @@ final as (
 )
 
 -- Simple Select Statement
-select * from final
+SELECT * FROM FINAL
