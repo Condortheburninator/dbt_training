@@ -39,7 +39,7 @@ COMPARED AS (
 
     SELECT
             *
-            ,LAG( ORDER_NUM ) OVER( ORDER BY order_date DESC ) AS previous_day_orders
+            -- ,LAG( ORDER_NUM ) OVER( ORDER BY order_date DESC ) AS previous_day_orders
     FROM
             DAILY
 
